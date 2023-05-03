@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
 
-const document.getElementById("books")
+const bookshelf = document.getElementById("bookshelf")
 
 const appSettings = {
     databaseURL: "https://playground-a8608-default-rtdb.firebaseio.com/"
@@ -16,8 +16,9 @@ const booksEl = document.getElementById("books")
 
 onValue(booksInDB, function(snapshot) {
     let booksArray = Object.values(snapshot.val())
-    booksArray.forEach(uniqueBook => {
-        console.log(uniqueBook)
+    booksArray.forEach(book => {
+        appendBookToBooksListEl(book)
+        console.log(book)
     })
 })
 
@@ -26,5 +27,14 @@ function clearBooksListEl() {
 }
 
 function appendBookToBooksListEl(bookValue) {
-    booksEl.innerHTML += `<li>${bookValue}</li>`
+    let parent = bookshelf
+    let child = "li"
+    let text = bookValue
+
+    let node = document.createElement(child)
+    let textNode = document.createTextNode(text)
+
+    node.appendChild(textNode)
+    parent.appendChild(node)
+        //booksEl.innerHTML += `<li>${bookValue}</li>`
 }
