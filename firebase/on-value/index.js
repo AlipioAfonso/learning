@@ -13,8 +13,14 @@ const booksInDB = ref(database, "books")
 
 const booksEl = document.getElementById("books")
 
+// Get values from firebase 
 
 onValue(booksInDB, function(snapshot) {
+
+    // Clear bookshelf list before appending to the ul list
+    clearBooksListEl(bookshelf)
+
+
     let booksArray = Object.values(snapshot.val())
     booksArray.forEach(book => {
         appendBookToBooksListEl(book)
@@ -22,9 +28,19 @@ onValue(booksInDB, function(snapshot) {
     })
 })
 
-function clearBooksListEl() {
-    booksEl.innerHTML = ""
+
+// Functions
+
+// Clear element
+function clearElementContent(element) {
+    element.textContent = ""
 }
+
+function clearBooksListEl() {
+    clearElementContent(bookshelf)
+}
+
+// Append book to ul bookshelf element list
 
 function appendBookToBooksListEl(bookValue) {
     let parent = bookshelf
@@ -36,5 +52,4 @@ function appendBookToBooksListEl(bookValue) {
 
     node.appendChild(textNode)
     parent.appendChild(node)
-        //booksEl.innerHTML += `<li>${bookValue}</li>`
 }
