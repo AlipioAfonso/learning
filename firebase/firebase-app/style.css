@@ -18,25 +18,31 @@ img {
     margin: 0 auto;
 }
 
+button,
+input,
+img {
+    margin: 0 auto;
+    display: block;
+}
+
+button,
 input {
-    color: #432000;
-    background-color: #DCE1EB;
+    width: 320px;
+    padding: 20px 0 20px 0;
     border: 0;
-    padding: 15px;
     border-radius: 8px;
     font-size: 20px;
     text-align: center;
     font-family: 'Rubik', sans-serif;
-    margin: 10px 0;
+}
+
+input {
+    color: #432000;
+    background-color: #DCE1EB;
+    margin-bottom: 20px;
 }
 
 button {
     color: #FDFDFD;
     background-color: #AC485A;
-    border: 0;
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 20px;
-    text-align: center;
-    font-family: 'Rubik', sans-serif;
 }
