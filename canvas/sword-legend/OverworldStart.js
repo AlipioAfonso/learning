@@ -19,24 +19,36 @@ class Overworld {
 
     }
 
+    
+    
     // Starts the request frame loop
     startGameLoop() {
-        const frame = () => {
+        let timestep = 1000 / 60
+        let movement = 1
+        const frame = timestamp => {
+            
+            
 
-            this.ctx.clearRect(
-                0, 0,
-                this.canvas.width, this.canvas.height
-            )
+
+
+            // Clear the canvas so no image renders dragged
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
             this.map.drawLowerImage(this.ctx) // Draw Lower Layer
 
             // Draw Game Objects through sprite class
-            Object.values(this.map.gameObjects).forEach(gameObject => {
-                gameObject.sprite.draw(this.ctx)
+            Object.values(this.map.gameObjects).forEach(game_object => {
+                game_object.update({
+
+                })
+                //game_object.x += movement
+                game_object.sprite.draw(this.ctx)
             })
 
             this.map.drawUpperImage(this.ctx) // Draw Upper Layer
+            
+            
 
-            requestAnimationFrame(() => { frame() })
+            requestAnimationFrame( () => {frame()} )
         }
         
         frame() // Starts requestAnimationFrame()
@@ -46,8 +58,13 @@ class Overworld {
     // Ignites the game
     init() {
         // Chooses the current boot map
-        this.map = new OverworldMap(window.OverworldMaps.Kitchen)
+        this.map = new OverworldMap(window.OverworldMaps.DemoRoom)
+
+        this.directionInput = new DirectionInput()
+
         this.startGameLoop()
+
+        this.directionInput.init()
     }
 
 }
