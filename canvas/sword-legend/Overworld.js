@@ -1,56 +1,53 @@
 class Overworld {
+    // This class is responsible to ignite the game
+    // choose the map and selecting canvas
     constructor(config) {
+        // Catching and setting up canvas
+        // Passing canvas element through constructor
         this.element = config.element
+        // Catching the canvas element
         this.canvas = this.element.querySelector(".game-canvas")
+        // Setting up context
         this.ctx = this.canvas.getContext("2d")
-        this.ctx.imageSmoothingEnabled = false;
+
+        //  The map was okay without this setting, but when zooming
+        // the character, it got pixelated-blurry
+        this.ctx.imageSmoothingEnabled = false
+
+        // Declaring variable responsible to choose the current map
+        this.map = null
+
     }
 
+    // Starts the request frame loop
+    startGameLoop() {
+        const frame = () => {
+
+            this.ctx.clearRect(
+                0, 0,
+                this.canvas.width, this.canvas.height
+            )
+            this.map.drawLowerImage(this.ctx) // Draw Lower Layer
+
+            // Draw Game Objects through sprite class
+            Object.values(this.map.gameObjects).forEach(gameObject => {
+                gameObject.sprite.draw(this.ctx)
+            })
+
+            this.map.drawUpperImage(this.ctx) // Draw Upper Layer
+
+            requestAnimationFrame(() => { frame() })
+        }
+        
+        frame() // Starts requestAnimationFrame()
+    }
+
+
+    // Ignites the game
     init() {
-        // Draws the map in the canvas
-        const img = new Image()
-        img.onload = () => {
-            this.ctx.drawImage(img, 0, 0)
-        }
-        img.src = "./images/maps/DemoLower.png"
-
-
-        const x = 5
-        const y = 6
-        const heroWidthAndHeight = 32
-        const heroWidth = heroWidthAndHeight
-        const heroHeight = heroWidthAndHeight
-
-        const shadow = new Image()
-        shadow.onload = () => {
-            this.ctx.drawImage(
-                shadow, 
-                0, 0, // Start of the cut
-                32, 32, //width and height of the cut
-                x * 16 - 8, y * 16 - 18, // Position of the hero
-                heroWidth, heroHeight
-            )
-        }
-
-        shadow.src = "./images/characters/shadow.png"
-
-
-
-
-        // Draws the hero in the canvas
-        const hero = new Image()
-        hero.onload = () => {
-            this.ctx.drawImage(
-                hero, 
-                0, 0, // Start of the cut
-                32, 32, //width and height of the cut
-                x * 16 - 8, y * 16 - 18, // Position of the hero
-                heroWidth, heroHeight
-            )
-        }
-
-        hero.src = "./images/characters/people/hero.png"
-
+        // Chooses the current boot map
+        this.map = new OverworldMap(window.OverworldMaps.Kitchen)
+        this.startGameLoop()
     }
 
 }
