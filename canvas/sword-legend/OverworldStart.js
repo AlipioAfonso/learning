@@ -27,10 +27,6 @@ class Overworld {
         let movement = 1
         const frame = timestamp => {
             
-            
-
-
-
             // Clear the canvas so no image renders dragged
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
             this.map.drawLowerImage(this.ctx) // Draw Lower Layer
@@ -38,9 +34,10 @@ class Overworld {
             // Draw Game Objects through sprite class
             Object.values(this.map.gameObjects).forEach(game_object => {
                 game_object.update({
-
+                    arrow: this.directionInput.direction,
+                    velocity: this.directionInput.velocity,
+                    isRunning: this.directionInput.isRunning
                 })
-                //game_object.x += movement
                 game_object.sprite.draw(this.ctx)
             })
 
@@ -62,9 +59,9 @@ class Overworld {
 
         this.directionInput = new DirectionInput()
 
-        this.startGameLoop()
-
         this.directionInput.init()
+        
+        this.startGameLoop()
     }
 
 }
