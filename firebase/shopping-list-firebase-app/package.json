@@ -1,0 +1,22 @@
+{
+  "name": "shopping-list-firebase-app",
+  "version": "1.0.0",
+  "description": "Shopping list to use with my family.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://alipioafonso@github.com/alipioafonso/learning.git"
+  },
+  "author": "Alipio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alipioafonso/learning/issues"
+  },
+  "homepage": "https://github.com/alipioafonso/learning#readme",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}

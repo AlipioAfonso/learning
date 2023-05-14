@@ -12,6 +12,35 @@ const app = initializeApp(appSettings)
 const database = getDatabase(app)
 const shoppingListDB = ref(database, dbName)
 
+// Variables from the DOM
+const inputFieldEl = document.getElementById("input-field")
+const addButtonEl = document.getElementById("add-button")
+const shoppingListEl = document.getElementById("list0")
+
+
+const tabs = document.getElementById("tabs")
+
+const tabsArray = {
+    0: {
+        id: 0, 
+        parent: document.getElementById("tabs"), 
+        child: "li", 
+        text: "Shopping List"
+    },
+    1: {
+        id: 1, 
+        parent: document.getElementById("tabs"), 
+        child: "li", 
+        text: "Eletronic List"
+    }
+}
+
+Object.values(tabsArray).forEach( e => {
+    appendChildToParent(e)
+})
+
+
+//appendChildToParentWithID(tabsArray)
 
 
 // Get and append the shopping list on the ul list
@@ -33,11 +62,6 @@ onValue(shoppingListDB, function(snapshot) {
 
 })
 
-// Variables from the DOM
-const inputFieldEl = document.getElementById("input-field")
-const addButtonEl = document.getElementById("add-button")
-const shoppingListEl = document.getElementById("list")
-
 
 // Functions 
 
@@ -47,6 +71,40 @@ function clearInputFieldEl(inputField) {
 }
 
 function appendChildToParent(element) {
+    //id: itemID, parent: shoppingListEl, child: "li", text: itemValue
+    let node = document.createElement(element.child)
+    let textNode = document.createTextNode(element.text)
+    let activeTabs = []
+
+    node.appendChild(textNode)
+    element.parent.appendChild(node)
+    node.addEventListener("mousedown",  e => {
+        let tabList = document.getElementById("tabs").getElementsByTagName("li")
+        Object.values(tabList).forEach( tab => {
+            tab.style.background = "white"
+        })
+        node.style.background = "blue"
+
+
+        const elementId = "list" + element.id
+        disappearAllListsButOne(elementId)
+
+        
+    })
+}
+
+function disappearAllListsButOne(visibleElement) {
+    let lists = document.getElementsByClassName("list")
+    let visible = document.getElementById(visibleElement)
+    Object.values(lists).forEach( e => {
+        e.style.display = "none"
+        visible.style.display = "flex"
+
+    } )
+}
+
+function appendChildToParentWithID(element) {
+    //id: itemID, parent: shoppingListEl, child: "li", text: itemValue
     let node = document.createElement(element.child)
     let textNode = document.createTextNode(element.text)
     node.appendChild(textNode)
@@ -64,7 +122,7 @@ function appendToShoppingList(shoppingItem) {
     let itemID = shoppingItem[0]
     let itemValue = shoppingItem[1]
 
-    appendChildToParent({
+    appendChildToParentWithID({
         id: itemID,
         parent: shoppingListEl,
         child: "li",
@@ -93,7 +151,7 @@ addButtonEl.addEventListener("click", function() {
     clearInputFieldEl(inputFieldEl)
 
     // Appends a node to another node with text
-    //appendChildToParent(shoppingListEl, "li", inputValue)
+    //appendChildToParentWithID(shoppingListEl, "li", inputValue)
     console.log(inputValue)
 
 })
